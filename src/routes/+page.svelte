@@ -60,11 +60,10 @@
     </p>
 
     <details>
-        <summary role="button"
-            >Share this page with others: {$page.url.href.replace(
-                /^https?:\/\/(.*)\/$/i,
-                '$1'
-            )}
+        <summary role="button" class="secondary">
+            Share this page with others:<br /><span class="url">
+                {$page.url.href.replace(/^https?:\/\/(.*)\/$/i, '$1')}
+            </span>
         </summary>
         {#await qrPageUrlDataUrl then dataUrl}
             <img class="qrcode" src={dataUrl} />
@@ -76,14 +75,14 @@
     Connect to guest WiFi:
 
     <details>
-        <summary role="button">zoe_guest_5G</summary>
+        <summary role="button" class="secondary">zoe_guest_5G</summary>
         {#await qrGuestWifi5gDataUrl then dataUrl}
             <img class="qrcode" src={dataUrl} />
         {/await}
     </details>
 
     <details>
-        <summary role="button">zoe_guest</summary>
+        <summary role="button" class="secondary">zoe_guest</summary>
         {#await qrGuestWifiDataUrl then dataUrl}
             <img class="qrcode" src={dataUrl} />
         {/await}
@@ -97,6 +96,10 @@
 
     details {
         max-width: 25em;
+    }
+
+    .url {
+        font-family: monospace;
     }
 
     .embedder {
