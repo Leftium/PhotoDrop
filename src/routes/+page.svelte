@@ -1,7 +1,11 @@
 <script lang="ts">
     import '../app.scss';
 
+    import QRCode from 'qrcode';
+
     import { onMount } from 'svelte';
+
+    import { page } from '$app/stores';
 
     import {
         PUBLIC_DROPBOX_APP_KEY,
@@ -9,7 +13,14 @@
         PUBLIC_DROPBOX_SHARED_LINK,
     } from '$env/static/public';
 
+    // Bindings:
     let embedderDiv: HTMLElement;
+
+    let qrPageUrlDataUrl = QRCode.toDataURL($page.url.href);
+
+    let qrGuestWifiDataUrl = QRCode.toDataURL(`WIFI:S:zoe_guest;`);
+
+    let qrGuestWifi5gDataUrl = QRCode.toDataURL(`WIFI:S:zoe_guest_5G;`);
 
     onMount(() => {
         const options = {
@@ -22,7 +33,7 @@
                 headerSize: 'small',
             },
         };
-        (window as any).Dropbox.embed(options, embedderDiv);
+        // (window as any).Dropbox.embed(options, embedderDiv);
     });
 </script>
 
@@ -36,34 +47,61 @@
 </svelte:head>
 
 <main class="container">
-    <h1>
-        <a href={PUBLIC_DROPBOX_REQUEST_LINK}>
+    <p>
+        <a href={PUBLIC_DROPBOX_REQUEST_LINK} role="button">
             Share your photos from this event!
         </a>
-    </h1>
+    </p>
 
+    <p>
+        <a href={PUBLIC_DROPBOX_SHARED_LINK} role="button">
+            View photos from this event!
+        </a>
+    </p>
+
+    <details>
+        <summary role="button"
+            >Share this page with others: {$page.url.href.replace(
+                /^https?:\/\/(.*)\/$/i,
+                '$1'
+            )}
+        </summary>
+        {#await qrPageUrlDataUrl then dataUrl}
+            <img class="qrcode" src={dataUrl} />
+        {/await}
+    </details>
+
+    <div class="embedder" bind:this={embedderDiv} hidden />
     <hr />
+    Connect to guest WiFi:
 
-    <h1>
-        <a href={PUBLIC_DROPBOX_SHARED_LINK}>View photos from this event!</a>
-    </h1>
+    <details>
+        <summary role="button">zoe_guest_5G</summary>
+        {#await qrGuestWifi5gDataUrl then dataUrl}
+            <img class="qrcode" src={dataUrl} />
+        {/await}
+    </details>
 
-    <div class="embedder" bind:this={embedderDiv} />
+    <details>
+        <summary role="button">zoe_guest</summary>
+        {#await qrGuestWifiDataUrl then dataUrl}
+            <img class="qrcode" src={dataUrl} />
+        {/await}
+    </details>
 </main>
 
 <style>
-    main {
-        display: flex;
-        flex-direction: column;
-
-        height: 100%;
-    }
-
     h1 {
         margin: auto;
     }
 
+    details {
+        max-width: 25em;
+    }
+
     .embedder {
         flex-grow: 1;
+
+        visibility: hidden;
     }
 </style>
