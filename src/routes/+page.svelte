@@ -44,7 +44,9 @@
 
     <hr />
 
-    <h1>View photos from this event!</h1>
+    <h1>
+        <a href={PUBLIC_DROPBOX_SHARED_LINK}>View photos from this event!</a>
+    </h1>
 
     <div class="embedder" bind:this={embedderDiv} />
 </main>
