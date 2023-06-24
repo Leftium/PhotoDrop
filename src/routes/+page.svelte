@@ -3,14 +3,12 @@
 
   import QRCode from "qrcode";
 
-  import { onMount } from "svelte";
-
   import { page } from "$app/stores";
 
   import {
-    PUBLIC_DROPBOX_APP_KEY,
     PUBLIC_DROPBOX_REQUEST_LINK,
-    PUBLIC_DROPBOX_SHARED_LINK,
+    PUBLIC_SLIDESHOW_LANDSCAPE_LINK,
+    PUBLIC_SLIDESHOW_PORTRAIT_LINK,
   } from "$env/static/public";
 
   // Bindings:
@@ -21,47 +19,31 @@
   let qrGuestWifiDataUrl = QRCode.toDataURL(`WIFI:S:party_guest;`);
 
   let qrGuestWifi5gDataUrl = QRCode.toDataURL(`WIFI:S:party_guest_5G;`);
-
-  onMount(() => {
-    const options = {
-      link: PUBLIC_DROPBOX_SHARED_LINK,
-      file: {
-        zoom: "best",
-      },
-      folder: {
-        view: "grid",
-        headerSize: "small",
-      },
-    };
-    // (window as any).Dropbox.embed(options, embedderDiv);
-  });
 </script>
 
-<svelte:head>
-  <script
-    type="text/javascript"
-    src="https://www.dropbox.com/static/api/2/dropins.js"
-    id="dropboxjs"
-    data-app-key={PUBLIC_DROPBOX_APP_KEY}
-  ></script>
-</svelte:head>
-
 <main class="container">
+  <h4>Share your photos from this event!</h4>
   <p>
     <a href={PUBLIC_DROPBOX_REQUEST_LINK} role="button">
-      Share your photos from this event!
+      Open Dropbox request
     </a>
   </p>
+
+  <h4>View photos from this event!</h4>
 
   <p>
-    <a href={PUBLIC_DROPBOX_SHARED_LINK} role="button">
-      View photos from this event!
-    </a>
+    <a href={PUBLIC_SLIDESHOW_PORTRAIT_LINK} role="button">Portrait View</a>
+  </p>
+  <p>
+    <a href={PUBLIC_SLIDESHOW_LANDSCAPE_LINK} role="button">Landscape View</a>
   </p>
 
+  <hr />
+
+  <h4>Share this page with others:</h4>
   <details>
     <summary role="button" class="secondary">
-      Share this page with others:<br /><span class="url">
+      <span class="url">
         {$page.url.href.replace(/^https?:\/\/(.*)\/$/i, "$1")}
       </span>
     </summary>
