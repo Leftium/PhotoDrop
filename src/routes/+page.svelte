@@ -72,17 +72,18 @@
 
   <div class="embedder" bind:this={embedderDiv} hidden />
   <hr />
-  Connect to guest WiFi:
+
+  <h4>Guest Wi-Fi Networks:</h4>
 
   <details>
-    <summary role="button" class="secondary">party_guest_5G</summary>
+    <summary role="button" class="secondary outline">party_guest_5G</summary>
     {#await qrGuestWifi5gDataUrl then dataUrl}
       <img class="qrcode" src={dataUrl} />
     {/await}
   </details>
 
   <details>
-    <summary role="button" class="secondary">party_guest</summary>
+    <summary role="button" class="secondary outline">party_guest</summary>
     {#await qrGuestWifiDataUrl then dataUrl}
       <img class="qrcode" src={dataUrl} />
     {/await}
@@ -90,12 +91,14 @@
 </main>
 
 <style>
-  h1 {
-    margin: auto;
+  main {
+    max-width: 25em;
+    margin: 4px auto;
   }
 
-  details {
-    max-width: 25em;
+  [role="button"] {
+    text-align: left;
+    width: 100%;
   }
 
   .url {
