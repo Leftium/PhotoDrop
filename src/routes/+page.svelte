@@ -21,7 +21,7 @@
   let qrGuestWifi5gDataUrl = QRCode.toDataURL(`WIFI:S:party_guest_5G;`);
 </script>
 
-<main class="container">
+<main>
   <h4>Share your photos from this event!</h4>
   <p>
     <a href={PUBLIC_DROPBOX_REQUEST_LINK} role="button">
@@ -80,7 +80,16 @@
 
   [role="button"] {
     text-align: left;
+  }
+
+  a[role="button"] {
+    display: block;
     width: 100%;
+  }
+
+  .qrcode {
+    background: white;
+    padding: 4px;
   }
 
   .url {
